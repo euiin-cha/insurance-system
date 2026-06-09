@@ -1,90 +1,59 @@
-# 한화손보 AI기반 상품 비교분석시스템
+# InsureCompare
 
-손해보험사 3N5 간편건강보험 상품 요약서 PDF를 업로드하면
-담보 데이터를 자동 추출하여 비교분석 및 경쟁력 강화방안 보고서를 생성하는 AI 시스템입니다.
+손해보험 6개사 상품요약서 PDF를 AI로 자동 비교분석하는 웹 애플리케이션입니다.
 
 ## 주요 기능
 
-| 메뉴 | 기능 |
-|------|------|
-| 📁 파일 업로드 | 회사별 상품 요약서 PDF 업로드 (한화·삼성·현대·메리츠·KB·DB) |
-| 🗂 상품 구조 비교 | 상품명·종·형·보험기간·납입기간·납입면제 등 11개 항목 자동 추출·비교 |
-| 🔍 담보 내용 비교 | 담보명+지급사유 유사도 기반 1:1 자동 매핑 + 비교표 생성 |
-| 📋 경쟁력 강화방안 | SUMMARY / 상품구조비교 / 담보운영비교 / SWOT / 액션플랜 보고서 자동 생성 |
+- **상품 구조 비교**: 상품명·종·형·보통약관·보험기간·납입기간·가입연령·납입면제·부가서비스·할인 11개 항목 자동 추출
+- **담보 내용 비교**: Bigram Dice 유사도 기반 담보 자동 매핑 (담보명→지급사유 2단계)
+- **장단점 보고서**: 기준사 대비 비교사 경쟁력 자동 분석
+- **엑셀 저장**: 분석 결과 .xlsx 파일 다운로드
+
+## 지원 회사
+
+한화손해보험 / 삼성화재 / 현대해상 / 메리츠화재 / KB손해보험 / DB손해보험
+
+## 사용 방법
+
+1. [Anthropic Console](https://console.anthropic.com)에서 API 키 발급
+2. 앱 상단 API 키 입력란에 입력
+3. 각 회사 상품요약서 PDF 업로드
+4. 원하는 분석 탭에서 기준사/비교사 선택 후 실행
+
+## 기술 스택
+
+- Frontend: Vanilla HTML/CSS/JavaScript (단일 파일)
+- AI: Claude Sonnet 4.6 API
+- PDF 파싱: PDF.js 3.11.174
+- 엑셀 출력: SheetJS (xlsx)
+- 폰트/아이콘: Google Fonts (Noto Sans KR), Tabler Icons
 
 ## 로컬 실행
 
+별도 서버 불필요. `index.html`을 브라우저에서 직접 열거나:
+
 ```bash
-# 1. 의존성 설치
-pip install -r requirements.txt
-
-# 2. API 키 설정 (경쟁력 강화방안 메뉴 사용 시 필요)
-# Windows
-set ANTHROPIC_API_KEY=sk-ant-여기에키입력
-# Mac/Linux
-export ANTHROPIC_API_KEY=sk-ant-여기에키입력
-
-# 3. 실행
-streamlit run app.py
-# 또는
-python -m streamlit run app.py
+# Python 간이 서버 사용 시
+python3 -m http.server 8080
+# → http://localhost:8080 접속
 ```
 
 ## Render 배포
 
-### 1. GitHub 레포지토리 생성 후 Push
-```bash
-git init
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
-
-### 2. Render 연결
-1. [render.com](https://render.com) 접속 → New → Web Service
-2. GitHub 레포지토리 연결
-3. 아래 설정 확인:
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true`
-   - **Runtime**: Python 3
-
-### 3. 환경변수 설정 (필수)
-Render Dashboard → Environment 탭:
-
-| Key | Value |
-|-----|-------|
-| `ANTHROPIC_API_KEY` | `sk-ant-api03-...` (Anthropic Console에서 발급) |
-
-### 4. 배포 완료
-- 첫 배포 약 3~5분 소요
-- 이후 GitHub push 시 자동 재배포
-
-## 파일 구조
-
-```
-/
-├── app.py                    # 메인 애플리케이션
-├── requirements.txt          # Python 의존성
-├── render.yaml               # Render 배포 설정
-├── .streamlit/
-│   └── config.toml           # Streamlit 서버 설정
-├── .gitignore
-└── README.md
-```
-
-## 기술 스택
-
-- **Frontend**: Streamlit
-- **PDF 파싱**: pdfplumber
-- **AI 보고서**: Anthropic Claude API (claude-sonnet-4-5)
-- **엑셀 생성**: openpyxl
-- **Word 생성**: python-docx
-- **배포**: Render
+1. 이 저장소를 GitHub에 push
+2. [Render](https://render.com) → New → Static Site
+3. Repository 연결
+4. 설정:
+   - **Build Command**: (비워두기)
+   - **Publish Directory**: `.`
+5. Deploy
 
 ## 주의사항
 
-- PDF는 텍스트 추출 가능한 파일이어야 합니다 (스캔 이미지 PDF 불가)
-- `경쟁력 강화방안` 메뉴는 `ANTHROPIC_API_KEY` 환경변수 필요
-- Render 무료 플랜은 비활성 시 슬립 모드 진입 (첫 요청 시 약 30초 대기)
+- Claude API 키는 브라우저에서 직접 호출됩니다 (CORS 허용 헤더 포함)
+- API 키는 사용자 브라우저에만 존재하며 서버에 저장되지 않습니다
+- PDF 파싱은 클라이언트에서 처리되며 서버로 파일이 전송되지 않습니다
+
+## 한화손해보험 AI 경진대회 출품작
+
+2026년 한화손해보험 AI 경진대회 출품 프로젝트입니다.
