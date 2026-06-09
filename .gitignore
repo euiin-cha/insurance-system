@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# 환경변수 (절대 커밋 금지)
+.env
+.env.local
+.streamlit/secrets.toml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# 업로드된 PDF (개인정보)
+*.pdf
+
+# 개발용 임시 파일
+*.json
+*.log
+slide-*.jpg
+test_result.html
+make_ppt.js
+new_functions.py
+extract_coverages.py
