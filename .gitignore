@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# 가상환경
+.venv/
+venv/
+env/
+ENV/
+
+# 환경변수 (API 키 노출 방지 — 절대 커밋하지 말 것)
+.env
+.env.*
+secrets.toml
+.streamlit/secrets.toml
+
+# 업로드된 PDF (로컬 테스트용 임시 파일)
+*.pdf
+uploads/
+temp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 로그
+*.log
