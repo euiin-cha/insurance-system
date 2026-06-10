@@ -1186,7 +1186,7 @@ def show_upload_page():
         else:
             st.markdown('<div style="color:#999;font-size:12px;margin-bottom:8px">파일을 추가하세요</div>',
                         unsafe_allow_html=True)
-        uf_base = st.file_uploader("파일 업로드", type="pdf", key=f"up_{base_co_up}", label_visibility="collapsed")
+        uf_base = st.file_uploader("", type="pdf", key=f"up_{base_co_up}", label_visibility="collapsed")
         if uf_base:
             # 교체 허용: 기존 데이터 제거 후 재파싱
             for k in ['pdf_bytes','pdf_texts','pdf_structures','pdf_coverages']:
@@ -1210,7 +1210,7 @@ def show_upload_page():
                 else:
                     st.markdown('<div style="color:#999;font-size:11px;margin:4px 0 6px 2px">파일을 추가하세요</div>',
                                 unsafe_allow_html=True)
-                uf = st.file_uploader("파일 업로드", type="pdf", key=f"up_{co}", label_visibility="collapsed")
+                uf = st.file_uploader("", type="pdf", key=f"up_{co}", label_visibility="collapsed")
                 if uf:
                     for k in ['pdf_bytes','pdf_texts','pdf_structures','pdf_coverages']:
                         st.session_state[k].pop(co, None)
